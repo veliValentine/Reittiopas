@@ -5,8 +5,8 @@
 Kysyy reitin alku ja loppu pysäkit. Hakee tietokannasta datan ja käsittelee sen. Reitinhaku algoritmin toiminnallisuutta seuraavaksi|
 |22.4|1|Alustusta|
 |22.4|1|Selaimen toiminnallisuutta|
-|22.4|3|Reittihaun toiminnallisuutta|
-|22.4|21:00-||
+|22.4|5|Reittihaun toiminnallisuutta.|
+|22.4|23:00|Refactorointia|
 ||||
 ||||
 ||||

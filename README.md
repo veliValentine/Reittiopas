@@ -1,3 +1,3 @@
 Koodihaaste
 
-Reitti-sovellus
+Reittihaku-sovellus

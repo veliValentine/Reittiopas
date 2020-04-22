@@ -2,6 +2,6 @@
 
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-| 22.4|08:00-| init|
+| 22.4|08:00-13:00|Alustava sovellus. Kysyy reitin alku ja loppu pysäkit. Hakee tietokannasta datan ja käsittelee sen. Reitinhaku algoritmin toiminnallisuutta seuraavaksi|
 | yht   | 0   | | 
 ||||

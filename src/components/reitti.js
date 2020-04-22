@@ -6,12 +6,10 @@ console.log('tiet', tiet)
 console.log('pysäkit', pysakit)
 
 const init = () => {
-    const naapurit = Array(pysakit.length)
-    naapurit.fill([])
-    const pituus = Array(pysakit.length)
-    console.log(pituus)
-    pituus.fill([0])
-    console.log(pituus)
+    const n = pysakit.length
+    const naapurit = new Array(n).fill([])
+    const pituus = Array.from({length: n}, e=> new Array(n).fill(0))
+
     tiet.map(reitti => {
         const i = pysakit.findIndex((p) => p.toString() === reitti.mista.toString())
         const j = pysakit.findIndex((p) => p.toString() === reitti.mihin.toString())
@@ -26,14 +24,14 @@ const init = () => {
         //Lisätään reitin kesto
         pituus[i][j] = reitti.kesto
         pituus[j][i] = reitti.kesto
-        if (i === 0) {
+        if (i === 0 && j === 0) {
             console.log(reitti.mista, reitti.mihin, reitti.kesto, pituus[i][j])
         }
         return true
     })
 
-    console.log(naapurit[0])
-    console.log(pituus[0])
+    console.log(naapurit)
+    console.log(pituus)
 }
 const hae = (start, stop) => {
     let distances = {}

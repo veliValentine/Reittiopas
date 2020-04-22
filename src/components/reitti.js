@@ -1,95 +1,111 @@
 import dataService from '../services/data'
 
 const stops = dataService.getPysakit()
-const tiet = dataService.getTiet()
-console.log('tiet', tiet)
+const routes = dataService.getTiet()
+console.log('tiet', routes)
 console.log('pysäkit', stops)
 
 const init = () => {
     console.log('init search')
     const n = stops.length
-    const naapurit = new Array(n).fill([])
-    const pituus = Array.from({length: n}, e=> new Array(n).fill(0))
+    const graph = new Array(n).fill([]) //Contains stops and next stops
+    const times = Array.from({ length: n }, e => new Array(n).fill(0)) //contains times between stops
 
-    tiet.map(reitti => {
-        const i = stops.findIndex((p) => p.toString() === reitti.mista.toString())
-        const j = stops.findIndex((p) => p.toString() === reitti.mihin.toString())
-        //Lisätään polun lähtö ja määränpää toistensa naapuriksi
-        let array = [...naapurit[i]]
+    //init graph and times
+    routes.map(route => {
+        const i = stops.findIndex((p) => p.toString() === route.mista.toString())
+        const j = stops.findIndex((p) => p.toString() === route.mihin.toString())
+
+        let array = [...graph[i]]
         array.splice(0, 0, j)
-        naapurit.splice(i, 1, array)
-        array = [...naapurit[j]]
+        graph.splice(i, 1, array)
+        array = [...graph[j]]
         array.splice(0, 0, i)
-        naapurit.splice(j, 1, array)
+        graph.splice(j, 1, array)
 
         //Lisätään reitin kesto
-        pituus[i][j] = reitti.kesto
-        pituus[j][i] = reitti.kesto
-        if (i === 0 && j === 0) {
-            console.log(reitti.mista, reitti.mihin, reitti.kesto, pituus[i][j])
-        }
+        times[i][j] = route.kesto
+        times[j][i] = route.kesto
         return true
     })
 
-    return [naapurit, pituus]
+    return [graph, times]
 }
-const hae = (start, stop) => {
+const getRoute = (from, to) => {
     console.log('search')
-    const [naapurit, pituus] = init()
-    start = stops.findIndex(p => p.toLowerCase() === start)
-    stop = stops.findIndex(p => p.toLowerCase() === stop)
-    if(start === stop) {
-        return [stops[start]]
+    const [graph, times] = init()
+
+    //Check that stops are in database
+    if (!stops.find(s => from.toUpperCase() === s)) {
+        console.log(`Can't find stop:${from}`)
+        return []
+    } 
+    if (!stops.find(s => to.toUpperCase() === s)) {
+        console.log(`Can't find stop:${to}`)
+        return []
     }
 
+    //find index of from & to
+    from = stops.findIndex(stop => stop === from.toUpperCase())
+    to = stops.findIndex(stop => stop === to.toUpperCase())
+    if (from === to) {
+        return [stops[from]]
+    }
+
+    //init algorithm
     let dist = new Array(stops.length).fill(9999999)
     let visited = new Array(stops.length).fill(0)
-    let from = []
+    let route = []
 
-    dist[start] = 0;
+    dist[from] = 0;
 
-    let queue = [].concat(start)
+    let queue = [].concat(from)
     console.log('Searching distances...')
 
+    //Start with form
+    //Update distance to its neighbours
+    //Add neighbours to queue
+    //start over untill reached destination or all stops are isited
     while (queue.length !== 0) {
         const a = queue.shift()
-        if(visited[a] === 1) {
+        if (visited[a] === 1) {
             continue
         }
         visited[a] = 1
-        for (let i = 0; i < naapurit[a].length; i++) {
-            const next = naapurit[a][i]
+        for (let i = 0; i < graph[a].length; i++) {
+            const next = graph[a][i]
             const oldDist = dist[next]
-            const newDist = dist[a] + pituus[a][next]
+            const newDist = dist[a] + times[a][next]
             queue.push(next)
-            if(newDist<oldDist){
+            if (newDist < oldDist) {
                 dist[next] = newDist
-                from[next] = a
+                route[next] = a
             }
             //reverse distance to double check
-            if(dist[a] > dist[next] + pituus[a][next]){
-                dist[a] = dist[next] + pituus[a][next]
+            if (dist[a] > dist[next] + times[a][next]) {
+                dist[a] = dist[next] + times[a][next]
                 visited[a] = 0
-                from[a] = next
+                route[a] = next
                 queue.push(a)
             }
         }
-        if(a === stop) {
+        if (a === to) {
             console.log('Found faster...')
             break
         }
     }
-    console.log('distance', dist[stop])
-    //GET ROUTE
-    let k = stop
-    let route = []
-    while (k !== start) {
-        route.unshift(stops[k])
-        k=from[k]
+    console.log('distance', dist[to])
+
+    //Get shortest route
+    let k = to
+    let routeFromTo = []
+    while (k !== from) {
+        routeFromTo.unshift(stops[k])
+        k = route[k]
     }
-    route.unshift(stops[start])
-    console.log('Route', route)
-    return route
+    routeFromTo.unshift(stops[from])
+    console.log('Route', routeFromTo)
+    return routeFromTo
 }
 
-export default { hae }
+export default { getRoute }

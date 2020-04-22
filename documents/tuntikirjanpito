@@ -2,11 +2,10 @@
 
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-Kysyy reitin alku ja loppu pysäkit. Hakee tietokannasta datan ja käsittelee sen. Reitinhaku algoritmin toiminnallisuutta seuraavaksi|
 |22.4|1|Alustusta|
 |22.4|1|Selaimen toiminnallisuutta|
 |22.4|5|Reittihaun toiminnallisuutta.|
-|22.4|23:00|Refactorointia|
+|22.4|1|Refactorointia|
 ||||
 ||||
 ||||
@@ -14,5 +13,5 @@ Kysyy reitin alku ja loppu pysäkit. Hakee tietokannasta datan ja käsittelee se
 ||||
 ||||
 ||||
-| yht   | 0   | | 
+| yht   | 8   | | 
 

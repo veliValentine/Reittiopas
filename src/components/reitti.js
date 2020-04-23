@@ -122,8 +122,8 @@ const printRoute = (route, from, to) => {
 
 const getRoute = (from, to) => {
     console.log('search...')
-    from = from.toUpperCase()
-    to = to.toUpperCase()
+    from = from.toUpperCase().trim()
+    to = to.toUpperCase().trim()
 
     //Check that stops are in database
     if (!stops.find(s => from === s)) {
@@ -147,7 +147,6 @@ const getRoute = (from, to) => {
     //Make shortest route readable
     const routeFromTo = printRoute(route, from, to)
     
-    console.log('Route', routeFromTo, 'time', time)
     console.log('...search done')
     return [routeFromTo, time]
 }

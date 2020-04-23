@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import dataService from './services/data'
-import reitti from './components/reitti'
+import reittiComponent from './components/reitti'
+import linjaComponent from './components/linjat'
 
 function App() {
   const [mista, setMista] = useState('a')
-  const [mihin, setMihin] = useState('b')
-  const [route, setRoute] = useState([])
+  const [mihin, setMihin] = useState('L')
+  const [reitti, setReitti] = useState([])
+  const [linjat, setLinjat] = useState([])
   const [error, setError] = useState(false)
   const [message, setMessage] = useState(null)
 
@@ -23,37 +25,54 @@ function App() {
     event.preventDefault()
     if (!pysakit.includes(mista.toUpperCase())) {
       console.log(`Ei löydy pysäkkiä ${mista}`)
-      
-      setRoute([])
+
+      setReitti([])
       return
     }
     if (!pysakit.includes(mihin.toUpperCase())) {
       console.log(`Ei löydy pysäkkiä ${mihin}`)
-      setRoute([])
+      setReitti([])
       return
     }
     console.log(`Haetaan reittiä ${mista} -> ${mihin}`)
-    const polku = reitti.getRoute(mista, mihin)
-    console.log('polku', polku)
-    setRoute(polku)
+    const [polku, pituus] = reittiComponent.getRoute(mista, mihin)
+    console.log('polku', polku, 'pituus', pituus)
+    setReitti(polku)
+  }
+
+  const haeLinjat = () => {
+    if(reitti.length<1) {
+      return
+    }
+    console.log('LINJAT', linjaComponent.haeLinjat(reitti))
+    setLinjat(linjaComponent.haeLinjat(reitti))
   }
 
   return (
     <div>
-      <h1>Hi!</h1>
+      <h1>Reittihaku</h1>
+
       <form onSubmit={haeReitti}>
         <div>
-          mistä: <input value={mista} onChange={handleMistaChange} />
+          <b>Hae reittiä:</b>
         </div>
         <div>
-          mihin: <input value={mihin} onChange={handleMihinChange} />
+          Mistä: <input value={mista} onChange={handleMistaChange} />
         </div>
         <div>
-          <button type="submit">hae reitti</button>
+          Minne: <input value={mihin} onChange={handleMihinChange} />
+        </div>
+        <div>
+          <button type="submit">Hae reitti</button>
         </div>
       </form>
       <div>
-        {route}
+        <br/>
+        <b>Reitti: </b>
+        {reitti}
+      </div>
+      <div>
+        {linjat}
       </div>
     </div>
   )

@@ -94,8 +94,6 @@ const getRoute = (from, to) => {
             break
         }
     }
-    console.log('distance', dist[to])
-
     //Get shortest route
     let k = to
     let routeFromTo = []
@@ -104,8 +102,8 @@ const getRoute = (from, to) => {
         k = route[k]
     }
     routeFromTo.unshift(stops[from])
-    console.log('Route', routeFromTo)
-    return routeFromTo
+    console.log('Route', routeFromTo, 'Distance', dist[to])
+    return [routeFromTo, dist[to]]
 }
 
 export default { getRoute }

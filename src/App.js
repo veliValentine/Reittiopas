@@ -8,8 +8,8 @@ function App() {
   const [mihin, setMihin] = useState('L')
   const [reitti, setReitti] = useState([])
   const [linjat, setLinjat] = useState([])
-  const [error, setError] = useState(false)
-  const [message, setMessage] = useState(null)
+  //const [error, setError] = useState(false)
+  //const [message, setMessage] = useState(null)
 
   const pysakit = dataService.getPysakit()
 

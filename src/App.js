@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import dataService from './services/data'
 import reittiComponent from './components/reitti'
 import linjaComponent from './components/linjat'
 
 function App() {
-  const [mista, setMista] = useState('a')
-  const [mihin, setMihin] = useState('L')
+  const [mista, setMista] = useState('p')
+  const [mihin, setMihin] = useState('j')
   const [reitti, setReitti] = useState([])
+  const [aika, setAika] = useState('')
   const [linjat, setLinjat] = useState([])
   //const [error, setError] = useState(false)
   //const [message, setMessage] = useState(null)
-
-  const pysakit = dataService.getPysakit()
 
   const handleMihinChange = (event) => {
     setMihin(event.target.value)
@@ -23,31 +21,20 @@ function App() {
 
   const haeReitti = (event) => {
     event.preventDefault()
-    if (!pysakit.includes(mista.toUpperCase())) {
-      console.log(`Ei löydy pysäkkiä ${mista}`)
-
-      setReitti([])
-      return
-    }
-    if (!pysakit.includes(mihin.toUpperCase())) {
-      console.log(`Ei löydy pysäkkiä ${mihin}`)
-      setReitti([])
-      return
-    }
     console.log(`Haetaan reittiä ${mista} -> ${mihin}`)
-    const [polku, pituus] = reittiComponent.getRoute(mista, mihin)
-    console.log('polku', polku, 'pituus', pituus)
+    const [polku, aika] = reittiComponent.getRoute(mista, mihin)
+    console.log('polku', polku, 'aika', aika)
     setReitti(polku)
+    setAika(aika)
+    haeLinjat()
   }
 
   const haeLinjat = () => {
-    if(reitti.length<1) {
-      return
-    }
-    console.log('LINJAT', linjaComponent.haeLinjat(reitti))
+    console.log('--------------------------')
     setLinjat(linjaComponent.haeLinjat(reitti))
+    console.log({linjat})
   }
-
+  
   return (
     <div>
       <h1>Reittihaku</h1>
@@ -67,9 +54,11 @@ function App() {
         </div>
       </form>
       <div>
-        <br/>
-        <b>Reitti: </b>
-        {reitti}
+        <br />
+        <b>Reitti: </b> {reitti}
+      </div>
+      <div>
+        <b>Aika: </b> {aika}
       </div>
       <div>
         {linjat}

@@ -2,12 +2,22 @@ import React, { useState } from 'react'
 import reittiComponent from './components/reitti'
 import linjaComponent from './components/linjat'
 
+const Linjat = ({reitti, mista, mihin}) => {
+  //console.log(('Linjat()',{reitti}, {mista}, {mihin}))
+  const linjat = linjaComponent.haeLinjat(reitti, mista, mihin)
+  console.log({linjat})
+  return(
+    <div>
+      {linjat}
+    </div>
+  )
+}
+
 const App = () => {
   const [mista, setMista] = useState('p')
   const [mihin, setMihin] = useState('j')
   const [reitti, setReitti] = useState([])
   const [aika, setAika] = useState('')
-  const [linjat, setLinjat] = useState([])
   //const [error, setError] = useState(false)
   const [message, setMessage] = useState(null)
 
@@ -31,13 +41,6 @@ const App = () => {
     if (polku.length < 1) {
       setMessage('Reittiä ei löydy! Tarkistathan, että haet oikeaa pysäkkiä!!!')
     }
-    haeLinjat()
-  }
-
-  const haeLinjat = () => {
-    console.log('--------------------------')
-    setLinjat(linjaComponent.haeLinjat(reitti))
-    console.log({ linjat })
   }
 
   return (
@@ -66,7 +69,7 @@ const App = () => {
         <b>Aika: </b> {aika}
       </div>
       <div>
-        {linjat}
+        <Linjat reitti={reitti} mista={mista} mihin={mihin}/>
       </div>
     </div>
   )

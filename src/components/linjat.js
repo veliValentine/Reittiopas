@@ -1,8 +1,7 @@
 import dataService from '../services/data'
 const linjatKaikki = dataService.getLinjastot()
-const pysakitKaikki = dataService.getPysakit()
 
-const kasittele = (reitti, mista, mihin) => {
+const kasittele = (reitti) => {
     console.log('käsittele reittiä...')
     const kuljetutLinjat = new Array(reitti.length - 1).fill([])
     console.log({ reitti })
@@ -15,9 +14,12 @@ const kasittele = (reitti, mista, mihin) => {
             const f = pysakitLinjan.findIndex(p => p === reitti[index - 1])
             const t = pysakitLinjan.findIndex(p => p === reitti[index])
             //console.log(reitti[index - 1], reitti[index])
+
+            //Tarkistetaan, että reittiväliä voi kulkea kyseisellä linjalla
             if (f === -1 || t === -1) {
                 continue
             }
+            //Tarkistetaan, että linjan pysäkit ovat vierekkäin
             if (Math.abs(f - t) < 2) {
                 kuljetutLinjat[index - 1] = kuljetutLinjat[index - 1].concat(linja + ' ')
             }
@@ -28,21 +30,19 @@ const kasittele = (reitti, mista, mihin) => {
     return kuljetutLinjat
 }
 
-const haeLinjat = (reitti, mista, mihin) => {
+const haeLinjat = (reitti) => {
     console.log('Haetaan linjoja...')
-    console.log({ reitti }, { mista }, { mihin })
-    mista = pysakitKaikki.findIndex(p => p === mista.toUpperCase().trim())
-    mihin = pysakitKaikki.findIndex(p => p === mihin.toUpperCase().trim())
-    if (mista === -1 || mihin === -1) {
-        console.log('Linjoja ei voida hakea pysäkeille joita ei ole olemassa!!!', { mista }, { mihin })
-    }
-
+    console.log({ reitti })
+    
+    //Tarkistetaan, että reittiä pitkin voi kulkea
     if (reitti.length < 1) {
         console.log('Tyhjä', { reitti })
         return []
     }
 
-    const linjat = kasittele(reitti, mista, mihin)
+    //Haetaan käytettäviä linjoja
+    const linjat = kasittele(reitti)
+    
     console.log('...linjat haettu')
     return linjat
 }

@@ -100,7 +100,7 @@ const algorithm = (from, to) => {
     if(time[to] === 9999999) {
         return [[], '-']
     }
-    return [route, time[to]]
+    return [route, time]
 }
 
 const printRoute = (route, from, to) => {
@@ -143,7 +143,7 @@ const getRoute = (from, to) => {
     const routeFromTo = printRoute(route, from, to)
     
     console.log('...search done')
-    return [routeFromTo, time]
+    return [routeFromTo, time[to], time]
 }
 
 export default { getRoute }

@@ -122,26 +122,21 @@ const printRoute = (route, from, to) => {
 
 const getRoute = (from, to) => {
     console.log('search...')
-    from = from.toUpperCase().trim()
-    to = to.toUpperCase().trim()
+    //find index: from & to
+    from = stops.findIndex(stop => stop === from.toUpperCase().trim())
+    to = stops.findIndex(stop => stop === to.toUpperCase().trim())
 
     //Check that stops are in database
-    if (!stops.find(s => from === s)) {
-        console.log(`Can't find stop`, {from})
-        return [[], '']
-    } 
-    if (!stops.find(s => to === s)) {
-        console.log(`Can't find stop`, {to})
+    if (from === -1 || to === -1) {
+        console.log(`Can't find stop`, {from}, {to})
         return [[], '']
     }
 
-    //find index: from & to
-    from = stops.findIndex(stop => stop === from)
-    to = stops.findIndex(stop => stop === to)
+    //Stops are not same
     if (from === to) {
         return [stops[from], 0]
     }
-
+    //Find route and time
     const [route, time] = algorithm(from, to)
     
     //Make shortest route readable

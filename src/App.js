@@ -6,9 +6,13 @@ const Linjat = ({reitti, mista, mihin}) => {
   //console.log(('Linjat()',{reitti}, {mista}, {mihin}))
   const linjat = linjaComponent.haeLinjat(reitti, mista, mihin)
   console.log({linjat})
+  //if(linjat === undefined)
+  
   return(
     <div>
-      {linjat}
+      <b>Linjat: </b>{linjat.map((l, index) => (
+        <li key={index}>{l} </li>
+      ))}
     </div>
   )
 }

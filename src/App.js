@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import reittiComponent from './components/reitti'
 import linjaComponent from './components/linjat'
 import dataService from './services/data'
-import { Table, Alert, Button, Form, Nav, Navbar } from 'react-bootstrap'
+
+import {
+  Table,
+  Alert,
+  Button,
+  Form,
+  Nav,
+  Navbar
+} from 'react-bootstrap'
 
 const Yhteenveto = ({ aika, reitti }) => (
   <div>
@@ -30,6 +38,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
   const linjat = linjaComponent.haeLinjat(reitti).concat('------')
   const kaikkiPysakit = dataService.getPysakit()
 
+  //Luodaan taulukon solut omaan muuttujaan
   let tauluntiedot = reitti.map(pysakki => (
     <tr key={pysakki}>
       <td>
@@ -61,30 +70,47 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
   )
 }
 
-const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, message, handleMistaChange, handleMihinChange }) => {
+const Lomake = ({ setReitti, setAika, setReitinAjat }) => {
+  const [mista, setMista] = useState('')
+  const [mihin, setMihin] = useState('')
+  const [message, setMessage] = useState(null)
+
+  const handleMihinChange = (event) => {
+    setMihin(event.target.value)
+    setMessage(null)
+  }
+
+  const handleMistaChange = (event) => {
+    setMista(event.target.value)
+    setMessage(null)
+  }
 
   const haeReitti = (event) => {
     event.preventDefault()
     console.log(`Haetaan reittiä ${mista} -> ${mihin}`)
+
     const [polku, aika, reitinAjat] = reittiComponent.getRoute(mista, mihin)
     console.log('Lomake', { polku }, { aika }, { reitinAjat })
+    
     setReitti(polku)
     setAika(aika)
     setReitinAjat(reitinAjat)
+    
     if (polku.length < 1) {
       setMessage('Reittiä ei löydy! Tarkistathan, että haet oikealla pysäkillä!!!')
     }
   }
-  const pysakit = dataService.getPysakit().map(p => `${p} `)
+
   return (
     <Form onSubmit={haeReitti} >
       {(message &&
         <Alert variant="warning" onClose={() => setMessage(null)} dismissible>
           {message}
           <hr />
-          Pysakit: {pysakit}
+          Pysakit: {dataService.getPysakit().map(p => `${p} `)}
         </Alert>)
       }
+
       <Form.Group>
         <b>Hae reittiä: </b>
       </Form.Group>
@@ -94,6 +120,7 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
       <Form.Group>
         <b>Minne: </b><input value={mihin} onChange={handleMihinChange} />
       </Form.Group>
+
       <Button type="submit" variant="primary">Hae reitti</Button>
     </Form>
   )
@@ -101,7 +128,9 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
 
 const Header = () => (
   <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
-    <Navbar.Brand>Reittihaku-sovellus</Navbar.Brand>
+    <Navbar.Brand>
+      Reittihaku-sovellus
+    </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="head">
@@ -120,40 +149,25 @@ const Header = () => (
 )
 
 const App = () => {
-  const [mista, setMista] = useState('')
-  const [mihin, setMihin] = useState('')
   const [reitti, setReitti] = useState([])
   const [aika, setAika] = useState('')
   const [reitinAjat, setReitinAjat] = useState([])
-  const [message, setMessage] = useState(null)
-
-  const handleMihinChange = (event) => {
-    setMihin(event.target.value)
-    setMessage(null)
-  }
-
-  const handleMistaChange = (event) => {
-    setMista(event.target.value)
-    setMessage(null)
-  }
-
+  
   return (
-    <div className="container">
-      <Header />
-      <br />
-      <h2>Reittihaku</h2>
-      <Lomake
-        mista={mista}
-        mihin={mihin}
-        setReitti={setReitti}
-        setAika={setAika}
-        setReitinAjat={setReitinAjat}
-        setMessage={setMessage}
-        message={message}
-        handleMistaChange={handleMistaChange}
-        handleMihinChange={handleMihinChange}
-      />
-      <Tiedot reitti={reitti} aika={aika} reitinAjat={reitinAjat} />
+    <div className="container" fluid="true">
+        <Header />
+        <br />
+        <h2>Reittihaku</h2>
+        <Lomake
+          setReitti={setReitti}
+          setAika={setAika}
+          setReitinAjat={setReitinAjat}
+        />
+        <Tiedot
+          reitti={reitti}
+          aika={aika}
+          reitinAjat={reitinAjat}
+        />
     </div>
   )
 }

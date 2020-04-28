@@ -3,50 +3,52 @@ import reittiComponent from './components/reitti'
 import linjaComponent from './components/linjat'
 import dataService from './services/data'
 
-const Linjat = ({ reitti }) => {
-  //console.log(('Linjat()',{reitti}, {mista}, {mihin}))
-  const linjat = linjaComponent.haeLinjat(reitti)
-  console.log({ linjat })
-  //if(linjat === undefined)
+const Yhteenveto = ({ aika, reitti }) => (
+  <div>
+    <br />
+    <b>Reitti: </b>{reitti[0]}-{reitti[reitti.length - 1]}
+    <b> Aika: </b>{aika}
+    <br />
+  </div>
+)
 
-  return (
-    <div>
-      <b>Linjat: </b>{linjat.map((l, index) => (
-        <li key={index}>{l} </li>
-      ))}
-    </div>
-  )
-}
-
-const Reitti = ({ reitti }) => {
-  let r = []
-  reitti.map(p => {
-    r = r.concat(p)
-    r = r.concat('-')
-    return r
-  })
-  r[r.length - 1] = ''
-
-  return (
-    <div>
-      <b>Reitti: </b>{r}
-    </div>
-  )
-}
 
 const Tiedot = ({ reitti, aika, reitinAjat }) => {
   if (reitti.length < 1) {
     return (<></>)
   }
 
-  const linjat = linjaComponent.haeLinjat(reitti)
+  if (reitti.length < 2) {
+    return (
+      <div>
+        <br />
+        Olet jo perillä!
+      </div>
+    )
+  }
+
+  const linjat = linjaComponent.haeLinjat(reitti).concat('Perillä')
   const kaikkiPysakit = dataService.getPysakit()
 
-  let tauluntiedot = []
-  
-  
+  let tauluntiedot = reitti.map(pysakki => {
+    return (
+      <tr key={pysakki}>
+        <td>
+          {reitinAjat[kaikkiPysakit.findIndex(p => p === pysakki)]}
+        </td>
+        <td>
+          {pysakki}
+        </td>
+        <td>
+          {linjat[reitti.findIndex(p => pysakki === p)]}
+        </td>
+      </tr>
+    )
+  })
+
   return (
     <div>
+      <Yhteenveto aika={aika} reitti={reitti} />
       <table>
         <tbody>
           <tr>
@@ -57,11 +59,6 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
           {tauluntiedot}
         </tbody>
       </table>
-      ----------------------------------------------------
-      <Reitti reitti={reitti} />
-      <b>Aika: </b>{aika}
-      <Linjat reitti={reitti} />
-
     </div>
   )
 }
@@ -98,8 +95,8 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
 }
 
 const App = () => {
-  const [mista, setMista] = useState('p')
-  const [mihin, setMihin] = useState('j')
+  const [mista, setMista] = useState('')
+  const [mihin, setMihin] = useState('')
   const [reitti, setReitti] = useState([])
   const [aika, setAika] = useState('')
   const [reitinAjat, setReitinAjat] = useState([])

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import reittiComponent from './components/reitti'
 import linjaComponent from './components/linjat'
 import dataService from './services/data'
+import { Table, Alert, Button, Form, Nav, Navbar } from 'react-bootstrap'
 
 const Yhteenveto = ({ aika, reitti }) => (
   <div>
@@ -22,34 +23,33 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
     return (
       <div>
         <br />
-        Olet jo perillä!
+        <b>Olet jo perillä!</b>
       </div>
     )
   }
 
-  const linjat = linjaComponent.haeLinjat(reitti).concat('Perillä')
+  const linjat = linjaComponent.haeLinjat(reitti).concat('perillä')
   const kaikkiPysakit = dataService.getPysakit()
 
-  let tauluntiedot = reitti.map(pysakki => {
-    return (
-      <tr key={pysakki}>
-        <td>
-          {reitinAjat[kaikkiPysakit.findIndex(p => p === pysakki)]}
-        </td>
-        <td>
-          {pysakki}
-        </td>
-        <td>
-          {linjat[reitti.findIndex(p => pysakki === p)]}
-        </td>
-      </tr>
-    )
-  })
+  let tauluntiedot = reitti.map(pysakki => (
+    <tr key={pysakki}>
+      <td>
+        {reitinAjat[kaikkiPysakit.findIndex(p => p === pysakki)]}
+      </td>
+      <td>
+        {pysakki}
+      </td>
+      <td>
+        {linjat[reitti.findIndex(p => pysakki === p)]}
+      </td>
+    </tr>
+  )
+  )
 
   return (
     <div>
       <Yhteenveto aika={aika} reitti={reitti} />
-      <table>
+      <Table striped>
         <tbody>
           <tr>
             <th>Aika</th>
@@ -58,7 +58,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
           </tr>
           {tauluntiedot}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
@@ -76,23 +76,41 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
       setMessage('Reittiä ei löydy! Tarkistathan, että haet oikeaa pysäkkiä!!!')
     }
   }
+  const pysakit = dataService.getPysakit().map(p => `${p} `)
   return (
-    <form onSubmit={haeReitti}>
-      <div>
-        <b>Hae reittiä: </b>{message}
-      </div>
-      <div>
-        Mistä: <input value={mista} onChange={handleMistaChange} />
-      </div>
-      <div>
-        Minne: <input value={mihin} onChange={handleMihinChange} />
-      </div>
-      <div>
-        <button type="submit">Hae reitti</button>
-      </div>
-    </form>
+    <Form onSubmit={haeReitti} >
+      {(message &&
+        <Alert variant="warning">
+          {message}<br /> Pysakit: {pysakit}
+        </Alert>)
+      }
+      <Form.Group>
+        <b>Hae reittiä: </b>
+      </Form.Group>
+      <Form.Group>
+        <b>Mistä: </b><input value={mista} onChange={handleMistaChange} />
+      </Form.Group>
+      <Form.Group>
+        <b>Minne: </b><input value={mihin} onChange={handleMihinChange} />
+      </Form.Group>
+      <Button type="submit" variant="primary">Hae reitti</Button>
+    </Form>
   )
 }
+
+const Header = (props) => (
+  <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+    <Navbar.Brand>Reittihaku</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav.Link href="https://github.com/veliValentine/Reittiopas">
+        GitHub
+      </Nav.Link>
+      Reitinhaku sovellus osana Solidabis Oy <a href="https://koodihaaste.solidabis.com/?utm_source=facebook&utm_medium=banner&utm_campaign=koodihaaste&fbclid=IwAR2mF2954_gj316eu1Y2dyiFKr31QwEylsvxfqLees7TZMo6_Z8EQGzR4cc">koodihaastetta</a>
+      
+    </Navbar.Collapse>
+  </Navbar>
+)
 
 const App = () => {
   const [mista, setMista] = useState('')
@@ -114,7 +132,9 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="container">
+      <Header />
+      <br />
       <h1>Reittihaku</h1>
       <Lomake
         mista={mista}

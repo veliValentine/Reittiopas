@@ -13,7 +13,6 @@ const Yhteenveto = ({ aika, reitti }) => (
   </div>
 )
 
-
 const Tiedot = ({ reitti, aika, reitinAjat }) => {
   if (reitti.length < 1) {
     return (<></>)
@@ -28,7 +27,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
     )
   }
 
-  const linjat = linjaComponent.haeLinjat(reitti).concat('perillä')
+  const linjat = linjaComponent.haeLinjat(reitti).concat('------')
   const kaikkiPysakit = dataService.getPysakit()
 
   let tauluntiedot = reitti.map(pysakki => (
@@ -43,8 +42,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
         {linjat[reitti.findIndex(p => pysakki === p)]}
       </td>
     </tr>
-  )
-  )
+  ))
 
   return (
     <div>
@@ -64,6 +62,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
 }
 
 const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, message, handleMistaChange, handleMihinChange }) => {
+
   const haeReitti = (event) => {
     event.preventDefault()
     console.log(`Haetaan reittiä ${mista} -> ${mihin}`)
@@ -73,15 +72,17 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
     setAika(aika)
     setReitinAjat(reitinAjat)
     if (polku.length < 1) {
-      setMessage('Reittiä ei löydy! Tarkistathan, että haet oikeaa pysäkkiä!!!')
+      setMessage('Reittiä ei löydy! Tarkistathan, että haet oikealla pysäkillä!!!')
     }
   }
   const pysakit = dataService.getPysakit().map(p => `${p} `)
   return (
     <Form onSubmit={haeReitti} >
       {(message &&
-        <Alert variant="warning">
-          {message}<br /> Pysakit: {pysakit}
+        <Alert variant="warning" onClose={() => setMessage(null)} dismissible>
+          {message}
+          <hr />
+          Pysakit: {pysakit}
         </Alert>)
       }
       <Form.Group>
@@ -98,16 +99,22 @@ const Lomake = ({ mista, mihin, setReitti, setAika, setReitinAjat, setMessage, m
   )
 }
 
-const Header = (props) => (
-  <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-    <Navbar.Brand>Reittihaku</Navbar.Brand>
+const Header = () => (
+  <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+    <Navbar.Brand>Reittihaku-sovellus</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
-      <Nav.Link href="https://github.com/veliValentine/Reittiopas">
-        GitHub
-      </Nav.Link>
-      Reitinhaku sovellus osana Solidabis Oy <a href="https://koodihaaste.solidabis.com/?utm_source=facebook&utm_medium=banner&utm_campaign=koodihaaste&fbclid=IwAR2mF2954_gj316eu1Y2dyiFKr31QwEylsvxfqLees7TZMo6_Z8EQGzR4cc">koodihaastetta</a>
-      
+      <Nav className="head">
+        <Nav.Link href="https://koodihaaste.solidabis.com/?utm_source=facebook&utm_medium=banner&utm_campaign=koodihaaste&fbclid=IwAR2mF2954_gj316eu1Y2dyiFKr31QwEylsvxfqLees7TZMo6_Z8EQGzR4cc">
+          Reittihaku-sovellus osana Solidabis Oy koodihaastetta
+        </Nav.Link>
+        <Nav.Link href="https://github.com/veliValentine/Reittiopas">
+          Lähdekoodi
+        </Nav.Link>
+        <Navbar.Text>
+          by Nicolas Valentine
+        </Navbar.Text>
+      </Nav>
     </Navbar.Collapse>
   </Navbar>
 )
@@ -118,7 +125,6 @@ const App = () => {
   const [reitti, setReitti] = useState([])
   const [aika, setAika] = useState('')
   const [reitinAjat, setReitinAjat] = useState([])
-  //const [error, setError] = useState(false)
   const [message, setMessage] = useState(null)
 
   const handleMihinChange = (event) => {
@@ -135,7 +141,7 @@ const App = () => {
     <div className="container">
       <Header />
       <br />
-      <h1>Reittihaku</h1>
+      <h2>Reittihaku</h2>
       <Lomake
         mista={mista}
         mihin={mihin}

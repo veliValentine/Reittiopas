@@ -16,7 +16,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "save": "git add . && git commit -m save && git push"
+    "save": "git add . && git commit -m save && git push",
+    "saveHeroku": "git add . && git commit -m heroku && git push heroku master"
+
   },
   "eslintConfig": {
     "extends": "react-app"

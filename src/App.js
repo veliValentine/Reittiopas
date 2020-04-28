@@ -44,7 +44,7 @@ const Tiedot = ({ reitti, aika, reitinAjat }) => {
 
   let tauluntiedot = []
   
-  }
+  
   return (
     <div>
       <table>

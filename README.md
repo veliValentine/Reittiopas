@@ -1,10 +1,4 @@
-Koodihaaste
+<h1>Koodihaaste</h1>
 
-Reittihaku-sovellus
+<h3>Reittihaku-sovellus</h3>
 
-23.4 Sovellus osaa hakea nopeimman mahdollisen reiti käyttäen bussilinjastoja.
-
----ToDo---
--Muokkaa array.map toiminnallisuudet oikeaksi
--Ominaisuuksien jakamista omiin komponentteihin(Refactorointia)
--Koodin selkeyttämistä

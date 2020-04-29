@@ -22,3 +22,13 @@
 <li>Lataamalla ylläolevat tiedostot</li>
 <li>Suorita komento "npm start" projektin juuressa</li>
 </ul>
+<hr/>
+<h3>Ratkaisu</h3>
+<p></p>
+<p>Ratkaisu koostuu kahdesta pääkomponentista</p>
+<ul>
+<ol>Reitin hakemisesta</ol>
+<ol>Käytettävien bussilinjojen hakemisesta</ol>
+</ul>
+<h5>Reitin haku</h5>
+<h5>Linjojen haku</h5>

@@ -1,4 +1,11 @@
-<h1>Koodihaaste</h1>
+<h1>
+    <a href="https://koodihaaste.solidabis.com/?utm_source=facebook&utm_medium=banner&utm_campaign=koodihaaste&fbclid=IwAR2mF2954_gj316eu1Y2dyiFKr31QwEylsvxfqLees7TZMo6_Z8EQGzR4cc">
+        Koodihaaste
+    </a>
+</h1>
+
+<h2>Sovellus löytyy herokusta</h2>
+<a href="https://reitinhaku.herokuapp.com/">Sovellukseen pääset tästä!</a>
 
 <h3>Reittihaku-sovellus</h3>
 <p>Sovellus on luotu käyttäen Reactin Create-React-App toimintoa</p>
@@ -6,3 +13,4 @@
 <p>react versiota 16.13.1</p>
 <p>npm versiota 6.14.4</p>
 <p></p>
+

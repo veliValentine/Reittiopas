@@ -26,9 +26,9 @@
 <h3>Ratkaisu</h3>
 <p></p>
 <p>Ratkaisu koostuu kahdesta pääkomponentista</p>
-<ul>
-<ol>Reitin hakemisesta</ol>
-<ol>Käytettävien bussilinjojen hakemisesta</ol>
-</ul>
+<ol>
+<li>Reitin hakemisesta</li>
+<li>Käytettävien bussilinjojen hakemisesta</li>
+</ol>
 <h5>Reitin haku</h5>
 <h5>Linjojen haku</h5>

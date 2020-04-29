@@ -12,7 +12,6 @@
 <p>Muotoiluun käytettiin React-Bootstrap kirjaston 1.0.1 veriota</p>
 <p>react versiota 16.13.1</p>
 <p>npm versiota 6.14.4</p>
-<p></p>
 
 <h3>Käyttö</h3>
 <p><a href="https://reitinhaku.herokuapp.com/">Menemällä tähän osoitteeseen</a></p>
@@ -31,4 +30,22 @@
 <li>Käytettävien bussilinjojen hakemisesta</li>
 </ol>
 <h5>Reitin haku</h5>
+<p>Aluksi haetaan data taulukoihin data.json tiedostosta</p>
+<p>Pysäkkien väliset reitit filtteröidään sen mukaan onko niiden välillä toimiva bussilinjasto</p>
+<p>Reitin haku toimii käyttäen Dijkstra-algoritmin toimintaperiaatetta</p>
+<p>Reitin hakeminen aloitetaan reitin lähtöpaikasta ja päätetään kun reitti määränpäähän on löytynyt.</p>
+<p>Pysäkin kohdalla päivitetään sille lyhin aika lähtöpysäkiltä</p>
+<p>Lopuksi palautetaan lyhin reitti, reittiin mennyt aika ja alkupisteestä kaikkiin pysäkkeihin kulunut aika</p>
+
 <h5>Linjojen haku</h5>
+<p>Käydään kuljettua reittiä pysäkkiväli kerrallaan.</p>
+<p>Kaikki käyvät bussilinjat lisätään listaan vain jos linja kulkee kyseisiä pysäkkejä pitkin ja pysäkit ovat vierekkäin.</p>
+
+<h5>Muu toiminnallisuus</h5>
+<p>Sovelluksen kättö on jaettu kahteen komponenttiin.</p>
+<p>Haku-lomakkeeseen ja tietojen näyttämiseen</p>
+<p>Lomake kysyy kättäjältä lähtö ja määränpää-pysäkkiä. Tämän jälkeen reitti haetaan käyttäen reitinhaku- toiminnallisuutta</p>
+<br/>
+<p>Löydetylle reitille etsitään käytetyt bussilinjat ja tulokset taulukoidaan käyttäjän nähtäväksi</p>
+
+<p></p>

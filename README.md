@@ -39,12 +39,12 @@
 
 <h5>Linjojen haku</h5>
 <p>Käydään kuljettua reittiä pysäkkiväli kerrallaan.</p>
-<p>Kaikki käyvät bussilinjat lisätään listaan vain jos linja kulkee kyseisiä pysäkkejä pitkin ja pysäkit ovat vierekkäin.</p>
+<p>Kaikki käyvät bussilinjat lisätään listaan vain, jos linja kulkee kyseisiä pysäkkejä pitkin ja pysäkit ovat vierekkäin.</p>
 
 <h5>Muu toiminnallisuus</h5>
-<p>Sovelluksen kättö on jaettu kahteen komponenttiin.</p>
+<p>Sovelluksen käyttö on jaettu kahteen komponenttiin.</p>
 <p>Haku-lomakkeeseen ja tietojen näyttämiseen</p>
-<p>Lomake kysyy kättäjältä lähtö ja määränpää-pysäkkiä. Tämän jälkeen reitti haetaan käyttäen reitinhaku- toiminnallisuutta</p>
+<p>Lomake kysyy käyttäjältä lähtö- ja määränpääpysäkkiä. Tämän jälkeen reitti haetaan käyttäen reitinhaku- toiminnallisuutta</p>
 <br/>
 <p>Löydetylle reitille etsitään käytetyt bussilinjat ja tulokset taulukoidaan käyttäjän nähtäväksi</p>
 
